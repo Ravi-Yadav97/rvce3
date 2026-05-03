@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RVCE Admissions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="container navbar-content">
+        <div class="nav-left">
+          <img src="assets/rvce-logo-CJGXbdMo.webp" alt="RVCE Logo" class="logo-img" />
+          <h2 class="logo-text">RVCE</h2>
+        </div>
+        <ul class="nav-links">
+          <li class="active" data-target="admission">Admission</li>
+          <li data-target="placement">Placement</li>
+          <li data-target="review">Review</li>
+          <li data-target="contact">Contact</li>
+        </ul>
+        <div class="nav-right">
+          <form class="nav-search" role="search" id="navSearch" autocomplete="off">
+            <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input type="search" name="q" placeholder="Search" aria-label="Search the site" />
+            <button type="button" class="nav-search-clear" aria-label="Clear search">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </form>
+          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-links">
+          <li data-target="admission">Admission</li>
+          <li data-target="placement">Placement</li>
+          <li data-target="review">Review</li>
+          <li data-target="contact">Contact</li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="admission" style="background-image:url('assets/hero-bg.jpg')">
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+
+      <!-- Decorative atmosphere -->
+      <div class="hero-glow hero-glow--1" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow--2" aria-hidden="true"></div>
+      <svg class="hero-dots" aria-hidden="true" viewBox="0 0 120 120" preserveAspectRatio="none">
+        <defs>
+          <pattern id="heroDots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,.18)" />
+          </pattern>
+        </defs>
+        <rect width="120" height="120" fill="url(#heroDots)" />
+      </svg>
+      <svg class="hero-corner-line" aria-hidden="true" viewBox="0 0 120 120">
+        <path d="M2 60 L2 2 L60 2" stroke="rgba(176,139,62,.55)" stroke-width="1.2" fill="none" />
+      </svg>
+
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-badge"><span></span> Top Rank Engineering College</div>
+          <h1 class="hero-title">
+            <span class="hero-title-text" aria-label="RVCE">
+              <span class="letter" style="--i:0">R</span><span class="letter" style="--i:1">V</span><span class="letter" style="--i:2">C</span><span class="letter" style="--i:3">E</span>
+            </span>
+            <svg class="hero-title-flourish" aria-hidden="true" viewBox="0 0 220 14" preserveAspectRatio="none">
+              <path d="M2 10 Q 60 2, 110 8 T 218 6" stroke="url(#heroLineGrad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="heroLineGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%"  stop-color="#b08b3e"/>
+                  <stop offset="60%" stop-color="#8c1d40"/>
+                  <stop offset="100%" stop-color="#b08b3e"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </h1>
+          <p class="hero-subtitle" data-anim="wipe">India's leading engineering institution.</p>
+          <p class="hero-desc" data-anim="words">Get expert guidance for admissions through Management, COMEDK and KCET / KEA quotas. Trusted, transparent and end-to-end support.</p>
+          <div class="hero-buttons">
+            <button class="btn-primary" data-target="contact">
+              <span>Book Free Consultation</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="btn-secondary" data-target="admission-section">Learn More</button>
+          </div>
+          <div class="hero-stats" aria-label="Highlights">
+            <div class="hero-stat"><strong data-count="20" data-suffix="+">20+</strong><span>Years of Expertise</span></div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat"><strong data-count="100" data-suffix="%">100%</strong><span>Placement Record</span></div>
+            <div class="hero-stat-divider" aria-hidden="true"></div>
+            <div class="hero-stat"><strong data-count="5000" data-suffix="+">5,000+</strong><span>Admissions Secured</span></div>
+          </div>
+        </div>
+
+      </div>
+      <a href="#admission-section" class="hero-scroll" aria-label="Scroll to next section">
+        <span class="hero-scroll-line"></span>
+        <span class="hero-scroll-text">SCROLL</span>
+      </a>
+
+      <!-- Bottom marquee ticker -->
+      <div class="hero-marquee" aria-hidden="true">
+        <div class="hero-marquee-track">
+          <span>★ ENGINEERING EXCELLENCE</span>
+          <span>· EST. 1963</span>
+          <span>· AUTONOMOUS INSTITUTION</span>
+          <span>· NAAC A++ ACCREDITED</span>
+          <span>· NBA ACCREDITED PROGRAMS</span>
+          <span>· INDUSTRY-FOCUSED CURRICULUM</span>
+          <span>· WORLD-CLASS RESEARCH</span>
+          <span>★ ENGINEERING EXCELLENCE</span>
+          <span>· EST. 1963</span>
+          <span>· AUTONOMOUS INSTITUTION</span>
+          <span>· NAAC A++ ACCREDITED</span>
+          <span>· NBA ACCREDITED PROGRAMS</span>
+          <span>· INDUSTRY-FOCUSED CURRICULUM</span>
+          <span>· WORLD-CLASS RESEARCH</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMISSION (chart + 3 quotas) -->
+    <section class="admission" id="admission-section">
+      <div class="container">
+        <div class="section-image section-image--admission">
+          <img src="assets/admission-bg.jpg" alt="College campus building — admissions to RVCE" loading="lazy" />
+          <div class="section-image__title">
+            <h2 data-letters>ADMISSION PROCESS</h2>
+          </div>
+        </div>
+        <div class="admission-header admission-header--no-h2">
+          <p>RVCE has three types of admission quotas under a formal seat-sharing agreement.</p>
+        </div>
+        <div class="admission-content">
+          <div class="left-chart">
+            <h3>B.E SEAT DISTRIBUTION IN RVCE</h3>
+            <p class="sub">RVCE Bangalore · 2026–27 · All figures in Lakh (₹)</p>
+            <div class="chart-wrapper">
+              <svg viewBox="0 0 200 200" width="280" height="280" id="seatPie">
+                <!-- pie slices generated via JS -->
+              </svg>
+              <div class="center-circle" id="centerCircle">
+                <span>SEATS</span>
+                <strong>100%</strong>
+              </div>
+            </div>
+            <div class="legend" id="pieLegend">
+              <div class="legend-item" data-key="MANAGEMENT"><span class="dot" style="background:#8c1d40"></span>MANAGEMENT 25%</div>
+              <div class="legend-item" data-key="COMEDK"><span class="dot" style="background:#1d4172"></span>COMEDK 30%</div>
+              <div class="legend-item" data-key="KCET"><span class="dot" style="background:#0b2545"></span>KCET 45%</div>
+            </div>
+            <p class="hint">✨ Hover any slice to see 3D effect</p>
+          </div>
+          <div class="right-cards">
+            <div class="quota-card" data-key="MANAGEMENT">
+              <div class="percent-wrapper"><span class="percent" style="color:#fff">25%</span></div>
+              <div class="quota-text">
+                <h4>MANAGEMENT QUOTA</h4>
+                <p>Direct admission — 25% of seats are available under this Quota.</p>
+              </div>
+            </div>
+            <div class="quota-card" data-key="COMEDK">
+              <div class="percent-wrapper"><span class="percent" style="color:#fff">30%</span></div>
+              <div class="quota-text">
+                <h4>COMEDK QUOTA</h4>
+                <p>All-India entrance — around 30% seats are filled through COMEDK quota.</p>
+              </div>
+            </div>
+            <div class="quota-card" data-key="KCET">
+              <div class="percent-wrapper"><span class="percent" style="color:#fff">45%</span></div>
+              <div class="quota-text">
+                <h4>KCET / KEA QUOTA</h4>
+                <p>Karnataka government quota — 45% seats in private colleges are reserved under this route.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE RVCE -->
+    <section class="whychoose">
+      <div class="container">
+        <h2 class="title center">Why Choose <span>RVCE Bangalore?</span></h2>
+        <div class="why-container">
+          <div class="why-left">
+            <div class="why-list">
+              <div class="why-card"><div class="why-number">1</div><p>Outstanding Placement Record</p><div class="right-accent"></div></div>
+              <div class="why-card"><div class="why-number">2</div><p>Excellent Academic Standard</p><div class="right-accent"></div></div>
+              <div class="why-card"><div class="why-number">3</div><p>World Class Infrastructure</p><div class="right-accent"></div></div>
+              <div class="why-card"><div class="why-number">4</div><p>Top Rank Engineering College</p><div class="right-accent"></div></div>
+              <div class="why-card"><div class="why-number">5</div><p>Affordable quality engineering education.</p><div class="right-accent"></div></div>
+            </div>
+          </div>
+          <div class="why-right">
+            <div class="why-image" style="background-image:url('assets/rvce_img4-C5NITqVR.png')"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MANAGEMENT QUOTA -->
+    <section class="management-quota">
+      <div class="container">
+        <h2 class="title center">What is <span>Management quota Admission in RVCE?</span></h2>
+        <div class="subtitle-box">Direct admission is offered under the Management Quota</div>
+        <div class="quota-layout">
+          <div class="quota-image"><img src="assets/rvce_img4-C5NITqVR.png" alt="RVCE campus" /></div>
+          <div class="quota-content">
+            <div class="info-cards">
+              <div class="info-card">
+                <div class="icon-box">🎓</div>
+                <div class="card-content"><p>Direct admission guidance</p></div>
+                <div class="right-accent"></div>
+              </div>
+              <div class="info-card">
+                <div class="icon-box">📋</div>
+                <div class="card-content"><p>Expert counselling for branch selection</p></div>
+                <div class="right-accent"></div>
+              </div>
+              <div class="info-card">
+                <div class="icon-box">⚡</div>
+                <div class="card-content"><p>Quick Seat Confirmation</p></div>
+                <div class="right-accent"></div>
+              </div>
+              <div class="info-card">
+                <div class="icon-box">✅</div>
+                <div class="card-content"><p>Transparent fee structure</p></div>
+                <div class="right-accent"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section class="eligibility">
+      <div class="container">
+        <div class="eligibility-header">
+          <h2>Management Quota Eligibility Criteria</h2>
+          <p>Get expert guidance for RVCE Management Quota Admission</p>
+        </div>
+        <div class="cards">
+          <div class="card blue">
+            <div class="icon-circle">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="#0b2545" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <span class="badge">1</span>
+            </div>
+            <p class="card-text">Must have passed <span class="highlight">Class 12 / 2nd PUC</span></p>
+          </div>
+          <div class="card green">
+            <div class="icon-circle">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="#1f6b3a" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              <span class="badge">2</span>
+            </div>
+            <p class="card-text"><span class="highlight">Physics, Mathematics</span> subjects separately</p>
+          </div>
+          <div class="card purple">
+            <div class="icon-circle">
+              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="#8c1d40" stroke-width="2"><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.18.43.27.91.27 1.41v.09H21a2 2 0 1 1 0 4h-.09c-.5 0-.98.09-1.41.27z"/></svg>
+              <span class="badge">3</span>
+            </div>
+            <p class="card-text">One compulsory subject: <span class="highlight">Chemistry / Biotechnology / Biology / Computer Science / Electronics</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTITUTE / WHY CHOOSE US -->
+    <section class="institute">
+      <div class="container">
+        <div class="institute-header">
+          <h2>Why Apply Through Us for RVCE Management Quota?</h2>
+        </div>
+        <div class="institute-cards">
+          <div class="institute-card red">
+            <div class="icon-box">🎓</div>
+            <p>Trusted Admission Consultancy</p>
+          </div>
+          <div class="institute-card blue">
+            <div class="icon-box">📋</div>
+            <p>End-to-End Guidance</p>
+          </div>
+          <div class="institute-card purple">
+            <div class="icon-box">⚡</div>
+            <p>Quick Seat Confirmation</p>
+          </div>
+          <div class="institute-card green">
+            <div class="icon-box">₹</div>
+            <p>No Hidden Charges</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS / TIMELINE + FORM -->
+    <section class="process-section">
+      <div class="container">
+        <h2 class="title center">RVCE <span>Admission Process</span></h2>
+        <div class="subtitle-box">Step-by-step process for RVCE Management Quota</div>
+        <div class="process-layout">
+          <div class="timeline-card">
+            <div class="timeline">
+              <div class="timeline-line"></div>
+              <div class="timeline-item left">
+                <div class="timeline-content">
+                  <h4>Submit your Query</h4>
+                  <p>Start your admission process</p>
+                </div>
+                <div class="timeline-circle">1</div>
+              </div>
+              <div class="timeline-item right">
+                <div class="timeline-circle">2</div>
+                <div class="timeline-content">
+                  <h4>Expert Counselling</h4>
+                  <p>Get guidance for best branch</p>
+                </div>
+              </div>
+              <div class="timeline-item left">
+                <div class="timeline-content">
+                  <h4>Document Verification</h4>
+                  <p>Submit required documents</p>
+                </div>
+                <div class="timeline-circle">3</div>
+              </div>
+              <div class="timeline-item right">
+                <div class="timeline-circle">4</div>
+                <div class="timeline-content">
+                  <h4>Fee Payment</h4>
+                  <p>Complete payment process</p>
+                </div>
+              </div>
+              <div class="timeline-item left">
+                <div class="timeline-content">
+                  <h4>Admission Confirmation</h4>
+                  <p>Secure your seat</p>
+                </div>
+                <div class="timeline-circle">5</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-card">
+            <h3>Quick Enquiry</h3>
+            <form class="quickForm">
+              <input type="text" placeholder="Full Name" required />
+              <input type="tel" placeholder="Phone Number" required />
+              <input type="email" placeholder="Email Address" />
+              <select required>
+                <option value="">Select Course</option>
+                <option>B.E (4-year)</option>
+                <option>B.Arch (5-year)</option>
+              </select>
+              <select required>
+                <option value="">Select Branch</option>
+                <option>Computer Science</option>
+                <option>Artificial Intelligence</option>
+                <option>Data Science</option>
+                <option>Cyber Security</option>
+                <option>Electronics &amp; Communication</option>
+                <option>Mechanical Engineering</option>
+                <option>Civil Engineering</option>
+                <option>Aerospace Engineering</option>
+                <option>Biotechnology</option>
+                <option>Architecture</option>
+              </select>
+              <textarea placeholder="Your Message"></textarea>
+              <button type="submit">Submit Enquiry</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEE STRUCTURE / BRANCHES -->
+    <section class="fee-section" id="placement">
+      <div class="container">
+        <div class="fee-header">
+          <h2>Fee Structure (Management Quota)</h2>
+          <p>RVCE Bangalore · 2026–27 · All figures in Lakh (₹)</p>
+        </div>
+
+        <!-- CSE -->
+        <div class="fee-category">
+          <div class="cat-heading">
+            <div class="cat-bar" style="background:linear-gradient(135deg,#2563eb,#ec4899)"></div>
+            <h3 style="color:#1e3a8a">Computer Science Branches</h3>
+          </div>
+          <div class="cat-layout">
+            <div class="cat-left"><div class="cat-img-box"><img class="cat-img" src="assets/computer_branch-Be2DPDpU.jpeg" alt="CSE" /></div></div>
+            <div class="cat-right"><div class="branch-grid" id="cseGrid"></div></div>
+          </div>
+        </div>
+
+        <!-- Circuit -->
+        <div class="fee-category">
+          <div class="cat-heading">
+            <div class="cat-bar" style="background:linear-gradient(135deg,#2563eb,#ec4899)"></div>
+            <h3 style="color:#1e3a8a">Circuit Branches</h3>
+          </div>
+          <div class="cat-layout">
+            <div class="cat-left"><div class="cat-img-box"><img class="cat-img" src="assets/circuit_branch-DxUy-UeU.png" alt="Circuit" /></div></div>
+            <div class="cat-right"><div class="branch-grid" id="circuitGrid"></div></div>
+          </div>
+        </div>
+
+        <!-- Core -->
+        <div class="fee-category">
+          <div class="cat-heading">
+            <div class="cat-bar" style="background:linear-gradient(135deg,#2563eb,#ec4899)"></div>
+            <h3 style="color:#1e3a8a">Core Engineering Branches</h3>
+          </div>
+          <div class="cat-layout">
+            <div class="cat-left"><div class="cat-img-box"><img class="cat-img" src="assets/core_branch-DD3AUj6i.jpeg" alt="Core" /></div></div>
+            <div class="cat-right"><div class="branch-grid" id="coreGrid"></div></div>
+          </div>
+        </div>
+
+        <!-- Other -->
+        <div class="fee-category">
+          <div class="cat-heading">
+            <div class="cat-bar" style="background:linear-gradient(135deg,#2563eb,#ec4899)"></div>
+            <h3 style="color:#1e3a8a">Other Branches</h3>
+          </div>
+          <div class="cat-layout">
+            <div class="cat-left"><div class="cat-img-box"><img class="cat-img" src="assets/other_branch-yu_onCY9.png" alt="Other" /></div></div>
+            <div class="cat-right"><div class="branch-grid" id="otherGrid"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KCET SECTION -->
+    <section class="kcet-section">
+      <div class="container">
+        <div class="section-image section-image--kcet">
+          <img src="assets/kcet-bg.jpg" alt="Students writing the KCET entrance examination" loading="lazy" />
+          <div class="section-image__title">
+            <h2 data-letters>Why KCET Quota is Important in RVCE?</h2>
+          </div>
+        </div>
+        <div class="subtitle-box">KCET is the primary admission gateway for engineering seats in Karnataka.</div>
+        <div class="kcet-layout">
+          <div class="kcet-left">
+            <h3 class="section-heading">About KCET</h3>
+            <div class="kcet-card"><div class="number">1</div><p>Conducted by Karnataka Examinations Authority (KEA).</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">2</div><p>Karnataka government quota — 45% of seats.</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">3</div><p>Students must be Karnataka domicile or meet KEA eligibility.</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">4</div><p>Rank-based centralized counselling ensures transparency.</p><div class="accent"></div></div>
+          </div>
+          <div class="kcet-right">
+            <h3 class="section-heading green">Benefits of KCET Quota</h3>
+            <div class="kcet-card green"><div class="number">1</div><p>Lowest fee compared to COMEDK or Management quota.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">2</div><p>Merit-based allocation ensures transparency.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">3</div><p>Ideal for students with average or moderate ranks.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">4</div><p>Affordable quality engineering education.</p><div class="accent"></div></div>
+          </div>
+        </div>
+        <div class="cta-box" data-target="contact">APPLY NOW FOR KCET COUNSELLING GUIDANCE</div>
+      </div>
+    </section>
+
+    <!-- COMEDK SECTION -->
+    <section class="kcet-section">
+      <div class="container">
+        <div class="section-image section-image--comedk">
+          <img src="assets/comedk-bg.jpg" alt="Open books and study material — preparing for COMEDK" loading="lazy" />
+          <div class="section-image__title">
+            <h2 data-letters>Why COMEDK Quota is Important in RVCE?</h2>
+          </div>
+        </div>
+        <div class="subtitle-box">National-level exam for private engineering colleges in Karnataka.</div>
+        <div class="kcet-layout">
+          <div class="kcet-left">
+            <h3 class="section-heading">About COMEDK</h3>
+            <div class="kcet-card"><div class="number">1</div><p>Consortium of Medical, Engineering and Dental Colleges of Karnataka.</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">2</div><p>Around 30% seats are filled through COMEDK quota.</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">3</div><p>Open to students across India with no Karnataka domicile requirement.</p><div class="accent"></div></div>
+            <div class="kcet-card"><div class="number">4</div><p>Admission is based on eligibility + seat availability.</p><div class="accent"></div></div>
+          </div>
+          <div class="kcet-right">
+            <h3 class="section-heading green">Benefits of COMEDK Quota</h3>
+            <div class="kcet-card green"><div class="number">1</div><p>Provides access to top colleges like RVCE for non-Karnataka students.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">2</div><p>Wider opportunity pool with all-India competition.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">3</div><p>Rank-based counselling ensures fairness and transparency.</p><div class="accent"></div></div>
+            <div class="kcet-card green"><div class="number">4</div><p>Excellent placement and academic record across COMEDK colleges.</p><div class="accent"></div></div>
+          </div>
+        </div>
+        <div class="cta-box" data-target="contact">APPLY NOW FOR COMEDK COUNSELLING GUIDANCE</div>
+      </div>
+    </section>
+
+    <!-- CONSULT SECTION -->
+    <section class="consult-section" id="review">
+      <div class="container">
+        <div class="section-image section-image--consult">
+          <img src="assets/consult-bg.jpg" alt="A counsellor mentoring a student" loading="lazy" />
+          <div class="section-image__title">
+            <h2 data-letters>Book <span>Free Consultation</span></h2>
+          </div>
+        </div>
+        <div class="subtitle-box">Get expert guidance for RVCE Management Quota Admission</div>
+        <div class="consult-layout">
+          <div class="consult-left card">
+            <h3>Why Book Consultation?</h3>
+            <ul class="consult-points">
+              <li>Direct admission guidance</li>
+              <li>Expert counselling for branch selection</li>
+              <li>Instant response via call/WhatsApp</li>
+              <li>Complete transparency in fees. No surprises.</li>
+            </ul>
+            <a class="whatsapp-btn" href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener">💬 WhatsApp Now</a>
+          </div>
+          <div class="consult-form card">
+            <h3>Submit your Query</h3>
+            <form id="consultForm">
+              <input type="text" placeholder="Full Name" required />
+              <input type="tel" placeholder="Phone Number" required />
+              <input type="email" placeholder="Email Address" />
+              <select required>
+                <option value="">Select Course</option>
+                <option>B.E (4-year)</option>
+                <option>B.Arch (5-year)</option>
+              </select>
+              <button type="submit">Book Consultation</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section" id="contact">
+      <div class="container">
+        <div class="faq-header">
+          <h2>Frequently Asked Questions</h2>
+          <p>Everything you need to know about RVCE admissions</p>
+        </div>
+        <div class="faq-layout">
+          <div class="faq-left" id="faqList"></div>
+          <div class="faq-right">
+            <div class="faq-form-card">
+              <h3>Enquiry Form</h3>
+              <form id="enquiryForm">
+                <input type="text" placeholder="Full Name" required />
+                <input type="tel" placeholder="Phone Number" required />
+                <input type="email" placeholder="Email Address" />
+                <select required>
+                  <option value="">Select Course</option>
+                  <option>B.E (4-year)</option>
+                  <option>B.Arch (5-year)</option>
+                </select>
+                <textarea placeholder="Your Message"></textarea>
+                <button type="submit">Submit Enquiry</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DISCLAIMER + OFFICIAL SITES -->
+    <section class="disclaimer-section">
+      <div class="disclaimer-container">
+        <div class="disclaimer-heading-block">
+          <h2 class="disclaimer-title">Disclaimer</h2>
+          <div class="disclaimer-divider"></div>
+        </div>
+        <p class="disclaimer-body">The information provided on this website is for general informational purposes only. By using this website, you agree to the terms of this disclaimer.</p>
+
+        <div class="official-websites-box">
+          <div class="ow-title-row">
+            <span class="ow-globe">🌐</span>
+            <h3 class="ow-title">Official Websites</h3>
+          </div>
+          <p class="ow-subtitle">For official information, updates, notifications and counselling related to admissions, please visit the respective official websites:</p>
+          <div class="ow-cards">
+            <div class="ow-card">
+              <div class="ow-card-logo">
+                <span class="comedk-text"><span class="c">C</span><span class="omed">OMED</span><span class="k">K</span></span>
+              </div>
+              <div class="ow-card-info">
+                <h4 class="ow-card-name">COMEDK</h4>
+                <p class="ow-card-desc">Consortium of Medical, Engineering and Dental Colleges of Karnataka</p>
+                <a class="ow-link-btn" href="https://www.comedk.org" target="_blank" rel="noopener"><span class="ow-link-globe">🌐</span>www.comedk.org</a>
+              </div>
+            </div>
+            <div class="ow-card">
+              <div class="ow-card-logo">
+                <div class="kea-logo"><span class="kea-k">K</span><span class="kea-e">E</span><span class="kea-a">A</span></div>
+              </div>
+              <div class="ow-card-info">
+                <h4 class="ow-card-name">KEA</h4>
+                <p class="ow-card-desc">Karnataka Examinations Authority — Official Website</p>
+                <a class="ow-link-btn" href="https://cetonline.karnataka.gov.in/kea" target="_blank" rel="noopener"><span class="ow-link-globe">🌐</span>cetonline.karnataka.gov.in/kea</a>
+              </div>
+            </div>
+            <div class="ow-card">
+              <div class="ow-card-logo">
+                <div class="rvce-logo"><span class="rvce-text"><span class="rvce-r">R</span><span class="rvce-vce">VCE</span></span></div>
+              </div>
+              <div class="ow-card-info">
+                <h4 class="ow-card-name">RVCE</h4>
+                <p class="ow-card-desc">R.V. College of Engineering, Bangalore — Official Website</p>
+                <a class="ow-link-btn" href="https://www.rvce.edu.in" target="_blank" rel="noopener"><span class="ow-link-globe">🌐</span>www.rvce.edu.in</a>
+              </div>
+            </div>
+          </div>
+          <div class="ow-note">
+            <i class="ow-note-icon">i</i>
+            <p>We recommend students and parents to always refer to the official websites for authentic information and notifications.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIXED MOBILE CONTACT -->
+    <div class="fixed-contact-btns">
+      <a class="fixed-contact-btn wa" href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="fixed-contact-btn call" href="tel:+91XXXXXXXXXX">📞 Call Now</a>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

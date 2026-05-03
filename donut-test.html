@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donut Chart Test</title>
+<style>
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    font-family: system-ui, sans-serif;
+    background: #fafaf6;
+    min-height: 100vh;
+  }
+  h1 { text-align: center; color: #111418; margin-bottom: 32px; }
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .test-card {
+    background: #fff;
+    border: 1px solid #e4e4df;
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .test-label {
+    text-align: center;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .verify {
+    margin: 32px auto 0;
+    max-width: 600px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #e4e4df;
+    border-radius: 8px;
+    font-family: ui-monospace, monospace;
+    font-size: 13px;
+  }
+  .verify h3 { margin: 0 0 12px; font-family: system-ui; }
+  .verify .row { display: flex; justify-content: space-between; padding: 4px 0; }
+  .verify .ok { color: #1f6b3a; }
+  .verify .err { color: #b91c1c; }
+</style>
+</head>
+<body>
+<h1>Donut Chart — Proportion Test</h1>
+
+<div class="test-grid">
+  <div class="test-card">
+    <div class="test-label">Default rendering</div>
+
+    <!-- ===== RVCE Donut Chart (self-contained) ===== -->
+    <div class="rv-donut">
+      <div class="rv-donut__chart">
+        <svg class="rv-donut__svg" viewBox="0 0 200 200" role="img" aria-label="Seat distribution donut chart">
+          <title>Seat distribution: KCET 45%, COMEDK 30%, Management 25%</title>
+          <g class="rv-donut__slices"></g>
+          <text class="rv-donut__top"    x="100" y="92"  text-anchor="middle">SEATS</text>
+          <text class="rv-donut__bottom" x="100" y="120" text-anchor="middle">100%</text>
+        </svg>
+      </div>
+
+      <ul class="rv-donut__legend" aria-label="Chart legend">
+        <li><span class="rv-donut__dot" style="background:#8c1d40"></span>MANAGEMENT 25%</li>
+        <li><span class="rv-donut__dot" style="background:#2563eb"></span>COMEDK 30%</li>
+        <li><span class="rv-donut__dot" style="background:#0b2545"></span>KCET 45%</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="test-card">
+    <div class="test-label">Second instance (must also work)</div>
+    <div class="rv-donut">
+      <div class="rv-donut__chart">
+        <svg class="rv-donut__svg" viewBox="0 0 200 200">
+          <g class="rv-donut__slices"></g>
+          <text class="rv-donut__top"    x="100" y="92"  text-anchor="middle">SEATS</text>
+          <text class="rv-donut__bottom" x="100" y="120" text-anchor="middle">100%</text>
+        </svg>
+      </div>
+      <ul class="rv-donut__legend">
+        <li><span class="rv-donut__dot" style="background:#8c1d40"></span>MANAGEMENT 25%</li>
+        <li><span class="rv-donut__dot" style="background:#2563eb"></span>COMEDK 30%</li>
+        <li><span class="rv-donut__dot" style="background:#0b2545"></span>KCET 45%</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="verify" id="verify"><h3>Math validation</h3><div id="verifyBody"></div></div>
+
+<style>
+  .rv-donut {
+    --rv-mgmt:   #8c1d40;
+    --rv-comedk: #2563eb;
+    --rv-kcet:   #0b2545;
+    --rv-ink:    #111418;
+    --rv-muted:  #6b7280;
+    --rv-rule:   #e4e4df;
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 16px;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+    color: var(--rv-ink);
+  }
+  .rv-donut *, .rv-donut *::before, .rv-donut *::after { box-sizing: border-box; }
+
+  .rv-donut__chart {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+  .rv-donut__svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .rv-donut__svg circle {
+    fill: none;
+    stroke-width: 30;
+    transform: rotate(-90deg);
+    transform-origin: 100px 100px;
+    transition: stroke-width .25s ease, filter .25s ease;
+    cursor: pointer;
+  }
+  .rv-donut__svg circle:hover {
+    stroke-width: 33;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,.18));
+  }
+
+  .rv-donut__top {
+    font: 600 11px ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: .18em;
+    fill: var(--rv-muted);
+  }
+  .rv-donut__bottom {
+    font: 700 22px ui-serif, Georgia, "Times New Roman", serif;
+    fill: var(--rv-kcet);
+  }
+
+  .rv-donut__legend {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 10px;
+  }
+  .rv-donut__legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--rv-rule);
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--rv-ink);
+    white-space: nowrap;
+  }
+  .rv-donut__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+(function () {
+  const SEGMENTS = [
+    { name: 'KCET',       value: 45, color: '#0b2545' },
+    { name: 'COMEDK',     value: 30, color: '#2563eb' },
+    { name: 'MANAGEMENT', value: 25, color: '#8c1d40' },
+  ];
+
+  const CX = 100, CY = 100, R = 70;
+  const CIRCUMFERENCE = 2 * Math.PI * R;
+
+  document.querySelectorAll('.rv-donut').forEach(root => {
+    const group = root.querySelector('.rv-donut__slices');
+    if (!group || group.dataset.rendered) return;
+
+    const total = SEGMENTS.reduce((s, x) => s + x.value, 0);
+    let cumulative = 0;
+
+    const track = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    track.setAttribute('cx', CX);
+    track.setAttribute('cy', CY);
+    track.setAttribute('r', R);
+    track.setAttribute('stroke', '#f3f1ea');
+    track.style.cursor = 'default';
+    track.style.pointerEvents = 'none';
+    group.appendChild(track);
+
+    SEGMENTS.forEach(seg => {
+      const fraction = seg.value / total;
+      const dash = fraction * CIRCUMFERENCE;
+      const offset = -(cumulative / total) * CIRCUMFERENCE;
+
+      const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      c.setAttribute('cx', CX);
+      c.setAttribute('cy', CY);
+      c.setAttribute('r', R);
+      c.setAttribute('stroke', seg.color);
+      c.setAttribute('stroke-dasharray', `${dash.toFixed(4)} ${(CIRCUMFERENCE - dash).toFixed(4)}`);
+      c.setAttribute('stroke-dashoffset', offset.toFixed(4));
+      c.setAttribute('data-segment', seg.name);
+      c.setAttribute('data-percent', seg.value);
+
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+      t.textContent = `${seg.name} ${seg.value}%`;
+      c.appendChild(t);
+      group.appendChild(c);
+
+      cumulative += seg.value;
+    });
+
+    group.dataset.rendered = '1';
+  });
+
+  // === Validation ===
+  const body = document.getElementById('verifyBody');
+  const total = SEGMENTS.reduce((s, x) => s + x.value, 0);
+  const C = 2 * Math.PI * 70;
+  const rows = [];
+  rows.push(`<div class="row"><span>Total of segments</span><span class="${total === 100 ? 'ok' : 'err'}">${total} (must = 100) ${total===100?'✓':'✗'}</span></div>`);
+  rows.push(`<div class="row"><span>Circumference (r=70)</span><span>${C.toFixed(4)}</span></div>`);
+  let cum = 0;
+  SEGMENTS.forEach(s => {
+    const dash = (s.value / total) * C;
+    rows.push(`<div class="row"><span>${s.name} ${s.value}%</span><span>dash=${dash.toFixed(4)}, offset=${(-cum/total*C).toFixed(4)}</span></div>`);
+    cum += s.value;
+  });
+  const sumDashes = SEGMENTS.reduce((s,x) => s + (x.value/total)*C, 0);
+  rows.push(`<div class="row"><span>Sum of dashes</span><span class="${Math.abs(sumDashes-C)<0.001 ? 'ok' : 'err'}">${sumDashes.toFixed(4)} (must = ${C.toFixed(4)}) ${Math.abs(sumDashes-C)<0.001?'✓':'✗'}</span></div>`);
+
+  // Validate ordering by size in DOM
+  const slices = document.querySelectorAll('.rv-donut__svg circle[data-segment]');
+  const rendered = Array.from(slices).slice(0, 3).map(c => ({
+    name: c.getAttribute('data-segment'),
+    pct:  +c.getAttribute('data-percent')
+  }));
+  const largest = rendered.reduce((a,b)=>a.pct>=b.pct?a:b);
+  const smallest = rendered.reduce((a,b)=>a.pct<=b.pct?a:b);
+  rows.push(`<div class="row"><span>Largest slice rendered</span><span class="${largest.name==='KCET'?'ok':'err'}">${largest.name} ${largest.pct}% ${largest.name==='KCET'?'✓':'✗'}</span></div>`);
+  rows.push(`<div class="row"><span>Smallest slice rendered</span><span class="${smallest.name==='MANAGEMENT'?'ok':'err'}">${smallest.name} ${smallest.pct}% ${smallest.name==='MANAGEMENT'?'✓':'✗'}</span></div>`);
+
+  body.innerHTML = rows.join('');
+})();
+</script>
+</body>
+</html>
