@@ -2850,6 +2850,35 @@ textarea { min-height: 120px; resize: vertical; }
    PRESERVED: section banner title letter rise (when .is-visible toggles) */
 
 /* =========================================================
+   FORM-CARD HEIGHT MATCH
+   Eliminate the empty white space below the right-side forms in
+   the Process section and the Consult section.
+   - Make both layout columns equal height
+   - Make the form fill the card vertically
+   - Pin the submit button to the bottom of its card
+   ========================================================= */
+.process-layout,
+.consult-layout {
+  align-items: stretch !important;
+}
+
+.form-card,
+.consult-form.card {
+  display: flex !important;
+  flex-direction: column !important;
+}
+.form-card > form,
+.consult-form.card > form {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.form-card > form > button[type="submit"],
+.consult-form.card > form > button[type="submit"] {
+  margin-top: auto !important;
+}
+
+/* =========================================================
    SCROLL-TRIGGERED REVEAL SYSTEM (sitewide)
    ========================================================= */
 .reveal {
