@@ -1,8 +1,15 @@
 // ---------- DATA ----------
+// Colors are read from the same CSS custom properties used by the percent
+// badges and legend dots — single source of truth. Edit the values in :root
+// and the chart, badges, and legend update together.
+const _cssRoot = getComputedStyle(document.documentElement);
+const _quotaColor = (name, fallback) =>
+  (_cssRoot.getPropertyValue('--quota-' + name).trim() || fallback);
+
 const QUOTAS = [
-  { name: 'MANAGEMENT', value: 25, color: '#8c1d40', dark: '#6b1530' },
-  { name: 'COMEDK',     value: 30, color: '#1d4172', dark: '#13315c' },
-  { name: 'KCET',       value: 45, color: '#0b2545', dark: '#06182d' },
+  { name: 'MANAGEMENT', value: 25, color: _quotaColor('management', '#8c1d40'), dark: '#6b1530' },
+  { name: 'COMEDK',     value: 30, color: _quotaColor('comedk',     '#1d4172'), dark: '#13315c' },
+  { name: 'KCET',       value: 45, color: _quotaColor('kcet',       '#0b2545'), dark: '#06182d' },
 ];
 
 const CSE_BRANCHES = [
@@ -259,17 +266,33 @@ document.querySelectorAll('form').forEach(form => {
 });
 
 // ---------- SCROLL SPY (active nav link) ----------
-const sections = ['admission', 'placement', 'review', 'contact']
-  .map(id => document.getElementById(id))
-  .filter(Boolean);
-window.addEventListener('scroll', () => {
-  const y = window.scrollY + 120;
-  let current = sections[0]?.id;
-  sections.forEach(s => { if (s.offsetTop <= y) current = s.id; });
-  document.querySelectorAll('.nav-links li, .mobile-links li').forEach(li => {
-    li.classList.toggle('active', li.dataset.target === current);
-  });
-});
+// Throttled with requestAnimationFrame so the handler runs at most
+// once per painted frame — cuts CPU on phones where scroll fires 60+
+// times a second.
+(function () {
+  const sections = ['admission', 'placement', 'review', 'contact']
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  // Cache nav links once — re-querying every scroll is wasteful
+  const navItems = document.querySelectorAll('.nav-links li, .mobile-links li');
+
+  let ticking = false;
+  function update() {
+    const y = window.scrollY + 120;
+    let current = sections[0].id;
+    for (const s of sections) if (s.offsetTop <= y) current = s.id;
+    navItems.forEach(li => li.classList.toggle('active', li.dataset.target === current));
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  update();
+})();
 
 // ---------- HERO WORD-BY-WORD REVEAL (disabled — lightweight mode) ----------
 // Words now show statically. To re-enable, restore the previous block.
@@ -361,6 +384,27 @@ window.addEventListener('scroll', () => {
     });
   });
 })();
+
+// =========================================================
+// "Why Choose RVCE Bangalore?" — entrance animation disabled
+// for performance. Cards render visible immediately. Hover
+// effects (lift, badge scale, text slide) still work since
+// they're CSS-only and only run on user interaction.
+// =========================================================
+
+// =========================================================
+// "Why Apply Through Us..." & "ABOUT RVCE" — entrance
+// animation disabled for performance. Cards render visible
+// immediately. Hover effects (lift, icon scale, glow) still
+// run since they're CSS-only and only fire on user input.
+// =========================================================
+
+// =========================================================
+// "Why KCET/COMEDK Quota..." — entrance animation disabled
+// for performance. Rows render visible immediately. Hover
+// effects (circle scale, fill, text slide) still work since
+// they're CSS-only and only fire on user interaction.
+// =========================================================
 
 // =========================================================
 // SECTION HEADING SUBTLE COLOR LIFT ON SCROLL

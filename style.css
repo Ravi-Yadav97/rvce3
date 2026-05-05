@@ -21,6 +21,16 @@
   --accent:   #8c1d40;
   --good:     #1f6b3a;
 
+  /* === Quota palette — single source of truth ===
+     Pie-chart slices, legend dots, and percent badges all read from these.
+     Change a value here and every linked element updates automatically. */
+  --quota-management:     #8c1d40;
+  --quota-management-rgb: 140 29 64;
+  --quota-comedk:         #1d4172;
+  --quota-comedk-rgb:     29 65 114;
+  --quota-kcet:           #0b2545;
+  --quota-kcet-rgb:       11 37 69;
+
   --container: 1180px;
   --gutter:    24px;
   --radius:    4px;
@@ -1199,32 +1209,53 @@ h1,h2,h3,h4 {
   box-shadow: var(--shadow-2);
 }
 .percent-wrapper {
-  width: 64px; height: 64px;
+  /* Default values — overridden per quota below via [data-key] */
+  --badge-color: var(--navy);
+  --badge-rgb:   var(--quota-kcet-rgb);
+
+  width: 68px; height: 68px;
   border-radius: 50%;
-  background: var(--tint);
-  border: 1px solid var(--rule);
+  background: var(--badge-color);
+  border: 1px solid var(--badge-color);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  box-shadow: none;
-  transition: background .15s, border-color .15s;
+  box-shadow:
+    0 0 0 4px rgba(var(--badge-rgb) / .12),
+    0 6px 14px -4px rgba(var(--badge-rgb) / .35);
+  transition: box-shadow .2s ease, transform .2s ease, filter .2s ease;
 }
-.quota-card:hover .percent-wrapper, .quota-card.active .percent-wrapper {
-  background: var(--navy);
-  border-color: var(--navy);
-  transform: none;
-  box-shadow: none;
+.quota-card[data-key="MANAGEMENT"] .percent-wrapper {
+  --badge-color: var(--quota-management);
+  --badge-rgb:   var(--quota-management-rgb);
+}
+.quota-card[data-key="COMEDK"] .percent-wrapper {
+  --badge-color: var(--quota-comedk);
+  --badge-rgb:   var(--quota-comedk-rgb);
+}
+.quota-card[data-key="KCET"] .percent-wrapper {
+  --badge-color: var(--quota-kcet);
+  --badge-rgb:   var(--quota-kcet-rgb);
+}
+.quota-card:hover .percent-wrapper,
+.quota-card.active .percent-wrapper {
+  transform: scale(1.04);
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 0 6px rgba(var(--badge-rgb) / .18),
+    0 10px 22px -6px rgba(var(--badge-rgb) / .5);
 }
 .percent {
   font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--navy) !important;
-  transition: color .15s;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff !important;
+  letter-spacing: -.01em;
+  text-shadow: 0 1px 2px rgba(0,0,0,.18);
+  transition: none;
 }
-.quota-card:hover .percent, .quota-card.active .percent {
-  color: #fff !important;
-  filter: none;
-  transform: none;
+.quota-card:hover .percent,
+.quota-card.active .percent {
+  color: #ffffff !important;
 }
 .quota-text h4 {
   font-family: var(--sans);
@@ -2747,6 +2778,7 @@ textarea { min-height: 120px; resize: vertical; }
 .section-image--kcet img      { object-position: center 55%; }
 .section-image--comedk img    { object-position: center 40%; }
 .section-image--admission img { object-position: center 50%; }
+.section-image--about img     { object-position: center 50%; }
 
 @media (max-width: 768px) {
   .section-image { height: 180px; margin-bottom: 36px; }
@@ -2835,19 +2867,730 @@ textarea { min-height: 120px; resize: vertical; }
 .branch-card .bc-accent-bar { display: none !important; }
 
 /* Card hover lifts that animate transform — keep them but with shorter
-   transition so they feel snappy, not bouncy */
+   transition so they feel snappy, not bouncy.
+   ( .institute-card excluded — has its own polished enhancement below ) */
 .card,
-.institute-card,
 .quota-card,
 .hero-finder { transition: border-color .15s, box-shadow .15s !important; }
 .card:hover,
-.institute-card:hover,
 .quota-card:hover,
 .quota-card.active,
 .hero-finder:hover { transform: none !important; }
 
 /* PRESERVED: hero RVCE letter rise (page-load, runs once)
    PRESERVED: section banner title letter rise (when .is-visible toggles) */
+
+/* =========================================================
+   "Why Choose RVCE Bangalore?" — interactive timeline list
+   • vertical connecting line through all 5 numbered circles
+   • hover: circle scales + fills navy + soft pulse glow
+   • hover: card gets a faint bg + text shifts right
+   • on scroll: each row fades up with stagger, re-triggers each pass
+   ========================================================= */
+.why-list { position: relative; }
+
+/* Vertical timeline line behind the circles
+   (positioned at x=19.5px so a 2px line passes through the
+   center of each 40px circle that sits at the row's left edge) */
+.why-list::before {
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 37, 69, 0)   0%,
+    rgba(11, 37, 69, .22) 7%,
+    rgba(11, 37, 69, .22) 93%,
+    rgba(11, 37, 69, 0)   100%
+  );
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Card row — flex layout + snappy hover */
+.why-list .why-card {
+  position: relative;
+  z-index: 1;
+  border-radius: 8px;
+  transition:
+    background-color .18s ease,
+    padding-left .2s cubic-bezier(.4, 0, .2, 1),
+    border-color .18s ease;
+}
+.why-list .why-card:hover {
+  background-color: rgba(11, 37, 69, .045);
+  padding-left: 10px;
+  border-bottom-color: rgba(11, 37, 69, .22);
+}
+
+/* Numbered circle — opaque so it sits on top of the timeline line */
+.why-list .why-number {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  transition:
+    transform .2s cubic-bezier(.34, 1.4, .64, 1),
+    background-color .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .2s ease;
+  will-change: transform;
+}
+.why-list .why-card:hover .why-number {
+  transform: scale(1.1);
+  background: var(--navy);
+  color: #ffffff;
+  border-color: var(--navy);
+  /* Static glow only — no continuous keyframe loop, much lighter on the GPU */
+  box-shadow:
+    0 0 0 5px  rgba(11, 37, 69, .12),
+    0 4px 12px -4px rgba(11, 37, 69, .45);
+}
+
+/* Text — small slide right on hover, navy color shift */
+.why-list .why-card p {
+  transition:
+    transform .2s cubic-bezier(.4, 0, .2, 1),
+    color .18s ease;
+}
+.why-list .why-card:hover p {
+  transform: translateX(6px);
+  color: var(--navy);
+}
+
+/* Sequential scroll-up reveal — kept short so all 5 land within ~0.4s.
+   Uses [data-rise] attr hook so the lightweight-mode .reveal overrides
+   above don't catch it. */
+.why-list .why-card[data-rise] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity .32s ease-out var(--rise-d, 0s),
+    transform .32s ease-out var(--rise-d, 0s),
+    background-color .18s ease,
+    padding-left .2s ease,
+    border-color .18s ease;
+  will-change: transform, opacity;
+}
+.why-list .why-card[data-rise].is-on {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .why-list .why-card[data-rise] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: background-color .15s ease, padding-left .15s ease;
+  }
+}
+
+@media (max-width: 480px) {
+  .why-list::before { left: 14px; }
+  .why-list .why-card:hover { padding-left: 8px; }
+  .why-list .why-card:hover p { transform: translateX(4px); }
+}
+
+/* =========================================================
+   "Why Choose RVCE Bangalore?" — card-style refresh
+   • Filled light cards (replaces the line-separator list)
+   • Gradient number badge (navy → crimson)
+   • Right-edge gradient accent stripe on each card
+   • Keeps the existing hover lift + scroll-reveal animations
+   ========================================================= */
+/* Hide the timeline line — no longer used in the card layout */
+.why-list,
+.why-list::before { background: none !important; border-top: none !important; }
+.why-list::before { display: none !important; }
+
+.why-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.why-list .why-card {
+  background: rgba(11, 37, 69, .04);
+  border: 1px solid rgba(11, 37, 69, .08) !important;
+  border-bottom: 1px solid rgba(11, 37, 69, .08) !important;
+  border-radius: 14px;
+  padding: 14px 28px 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 1px 0 rgba(17,20,24,.03),
+    0 4px 12px -6px rgba(11,37,69,.06);
+}
+.why-list .why-card:hover {
+  background: rgba(11, 37, 69, .065);
+  border-color: rgba(11, 37, 69, .18) !important;
+  border-bottom-color: rgba(11, 37, 69, .18) !important;
+  padding-left: 26px;
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(17,20,24,.04),
+    0 12px 24px -10px rgba(11,37,69,.22);
+}
+
+/* Gradient number badge */
+.why-list .why-number {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  border: none !important;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--accent) 100%) !important;
+  color: #ffffff !important;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.3) inset,
+    0 4px 10px -3px rgba(11,37,69,.35);
+  transition:
+    transform .22s cubic-bezier(.34, 1.4, .64, 1),
+    box-shadow .22s ease;
+  will-change: transform;
+}
+.why-list .why-card:hover .why-number {
+  transform: scale(1.06);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.35) inset,
+    0 6px 14px -4px rgba(140, 29, 64, .4);
+}
+
+/* Right-edge gradient accent stripe (the colored bar on the right) */
+.why-list .why-card .right-accent {
+  display: block !important;
+  position: absolute;
+  right: 0;
+  top: 18%;
+  bottom: 18%;
+  width: 4px;
+  border-radius: 4px 0 0 4px;
+  background: linear-gradient(180deg, var(--navy) 0%, var(--accent) 100%);
+  opacity: .85;
+  transition: opacity .2s ease, top .25s ease, bottom .25s ease;
+}
+.why-list .why-card:hover .right-accent {
+  opacity: 1;
+  top: 8%;
+  bottom: 8%;
+}
+
+/* Text */
+.why-list .why-card p {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  transition: color .18s ease, transform .22s cubic-bezier(.4,0,.2,1);
+}
+.why-list .why-card:hover p {
+  color: var(--navy);
+  transform: translateX(4px);
+}
+
+@media (max-width: 480px) {
+  .why-list .why-card { padding: 14px 22px 14px 14px; gap: 14px; border-radius: 12px; }
+  .why-list .why-card:hover { padding-left: 18px; }
+  .why-list .why-number { width: 42px; height: 42px; border-radius: 10px; font-size: 16px; }
+  .why-list .why-card p { font-size: 15px; }
+}
+
+/* =========================================================
+   "Why Apply Through Us for RVCE Management Quota?"
+   — polished 4-card grid (SaaS-style)
+   • equal heights via grid-auto-rows
+   • per-card soft accent (tinted bg + colored top hairline + icon)
+   • hover: lift + colored glow shadow + icon scale
+   • scroll: fast staggered fade-up via [data-rise-i] attr hook
+   ========================================================= */
+.institute-cards {
+  grid-auto-rows: 1fr; /* equal heights, edges aligned */
+}
+
+.institute-card {
+  /* per-card accent tokens — overridden by .red / .blue / .purple / .green */
+  --inst-accent:     #0b2545;
+  --inst-accent-rgb: 11 37 69;
+
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg,
+    #ffffff 0%,
+    rgba(var(--inst-accent-rgb) / .035) 100%);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  padding: 32px 22px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  box-shadow:
+    0 1px 0 rgba(17,20,24,.04),
+    0 4px 14px -6px rgba(11,37,69,.07);
+  overflow: hidden;
+  cursor: default;
+  transition:
+    transform .28s cubic-bezier(.2,.7,.2,1),
+    box-shadow .28s ease,
+    border-color .2s ease,
+    background .25s ease !important;
+}
+.institute-card.red    { --inst-accent: #8c1d40; --inst-accent-rgb: 140 29 64; }
+.institute-card.blue   { --inst-accent: #1d4172; --inst-accent-rgb: 29 65 114; }
+.institute-card.purple { --inst-accent: #6e3a82; --inst-accent-rgb: 110 58 130; }
+.institute-card.green  { --inst-accent: #1f6b3a; --inst-accent-rgb: 31 107 58; }
+
+/* Soft colored top hairline — appears as a subtle gradient outline */
+.institute-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(var(--inst-accent-rgb) / .85) 50%,
+    transparent);
+  border-radius: 2px;
+  opacity: .7;
+  transition: opacity .25s ease, left .35s ease, right .35s ease;
+}
+
+.institute-card:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(var(--inst-accent-rgb) / .35);
+  background: linear-gradient(180deg,
+    #ffffff 0%,
+    rgba(var(--inst-accent-rgb) / .055) 100%);
+  box-shadow:
+    0 1px 0 rgba(17,20,24,.04),
+    0 18px 32px -12px rgba(var(--inst-accent-rgb) / .28),
+    0 6px 14px -8px rgba(11,37,69,.10);
+}
+.institute-card:hover::before {
+  opacity: 1;
+  left: 4%; right: 4%;
+}
+
+/* Icon — colored, soft tinted background, scales on hover.
+   Higher specificity (.institute-cards parent) so it wins over the
+   earlier `.institute-card.red .icon-box { color: var(--navy) }` rules. */
+.institute-cards .institute-card .icon-box,
+.institute-cards .institute-card.red .icon-box,
+.institute-cards .institute-card.blue .icon-box,
+.institute-cards .institute-card.purple .icon-box,
+.institute-cards .institute-card.green .icon-box {
+  width: 56px; height: 56px;
+  background: rgba(var(--inst-accent-rgb) / .10) !important;
+  color: var(--inst-accent) !important;
+  border: 1px solid rgba(var(--inst-accent-rgb) / .22);
+  border-radius: 50%;
+  font-size: 24px;
+  margin: 0 0 18px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition:
+    transform .28s cubic-bezier(.34,1.4,.64,1),
+    background-color .2s ease,
+    border-color .2s ease;
+  will-change: transform;
+}
+.institute-cards .institute-card:hover .icon-box {
+  transform: scale(1.1);
+  background: rgba(var(--inst-accent-rgb) / .18) !important;
+  border-color: rgba(var(--inst-accent-rgb) / .4);
+}
+
+.institute-card p {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.4;
+  max-width: 200px;
+  margin: 0 !important;
+  transition: color .2s ease;
+}
+.institute-card:hover p { color: var(--inst-accent); }
+
+/* Scroll-triggered fade-up — uses [data-rise-i] attr hook so the
+   lightweight-mode .reveal overrides above don't catch it */
+.institute-card[data-rise-i] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity .35s ease-out var(--rise-d, 0s),
+    transform .35s ease-out var(--rise-d, 0s),
+    background .25s ease,
+    box-shadow .28s ease,
+    border-color .2s ease !important;
+  will-change: transform, opacity;
+}
+.institute-card[data-rise-i].is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+.institute-card[data-rise-i].is-on:hover {
+  /* hover transform must win over the rise transform once visible */
+  transform: translateY(-5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .institute-card[data-rise-i] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .institute-card:hover { transform: none !important; }
+  .institute-card:hover .icon-box { transform: none !important; }
+}
+
+@media (max-width: 1000px) { .institute-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) {
+  .institute-cards { grid-template-columns: 1fr; gap: 16px; }
+  .institute-card { min-height: 180px; padding: 26px 20px; }
+}
+
+/* =========================================================
+   "ABOUT RVCE" — same 4-card grid as Why Apply Through Us,
+   but with gradient icon tiles (navy → crimson) holding
+   white line SVG icons. Cards still inherit the polished
+   hover lift, scroll reveal, and per-variant accent tokens.
+   ========================================================= */
+.about-rvce { background: var(--paper); }
+
+.about-rvce .institute-card .icon-box,
+.about-rvce .institute-card.red .icon-box,
+.about-rvce .institute-card.blue .icon-box,
+.about-rvce .institute-card.purple .icon-box,
+.about-rvce .institute-card.green .icon-box {
+  width: 62px;
+  height: 62px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--navy) 0%, var(--accent) 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.2) inset,
+    0 6px 14px -4px rgba(11,37,69,.4),
+    0 2px 6px -1px rgba(140,29,64,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  transition:
+    transform .28s cubic-bezier(.34, 1.4, .64, 1),
+    box-shadow .25s ease;
+}
+.about-rvce .institute-card .icon-box svg {
+  width: 28px;
+  height: 28px;
+  display: block;
+  stroke: #ffffff;
+}
+
+.about-rvce .institute-card:hover .icon-box {
+  transform: scale(1.1);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.25) inset,
+    0 10px 20px -4px rgba(11,37,69,.5),
+    0 4px 10px -1px rgba(140,29,64,.35);
+}
+
+/* Match the user's "light blue tone" — slightly more blue tint
+   on the card bg than the warm-paper variants of Why Apply */
+.about-rvce .institute-card {
+  background: linear-gradient(180deg,
+    #ffffff 0%,
+    rgba(29, 65, 114, .055) 100%) !important;
+}
+.about-rvce .institute-card:hover {
+  background: linear-gradient(180deg,
+    #ffffff 0%,
+    rgba(29, 65, 114, .075) 100%) !important;
+}
+
+/* Center label below icon, slightly more confident weight */
+.about-rvce .institute-card p {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+  max-width: 200px;
+}
+
+/* ---- About RVCE — description + image mosaic ---- */
+.about-rvce__lede {
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 14px auto 0;
+  max-width: 660px;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.about-rvce__mosaic {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  margin: 40px 0;
+}
+
+.about-rvce__img {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--tint);
+  box-shadow:
+    0 1px 0 rgba(17, 20, 24, .04),
+    0 8px 24px -8px rgba(11, 37, 69, .14);
+  ring: 1px solid rgba(17, 20, 24, .05);
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+.about-rvce__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  will-change: transform;
+}
+.about-rvce__img:hover {
+  box-shadow:
+    0 1px 0 rgba(17, 20, 24, .05),
+    0 16px 36px -10px rgba(11, 37, 69, .25);
+}
+.about-rvce__img:hover img { transform: scale(1.04); }
+
+/* Hero image — spans both rows on the left */
+.about-rvce__img--hero {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  min-height: 420px;
+}
+.about-rvce__img--students { grid-column: 2 / 3; grid-row: 1 / 2; min-height: 200px; }
+.about-rvce__img--library  { grid-column: 2 / 3; grid-row: 2 / 3; min-height: 200px; }
+
+/* Soft scrim + caption overlay on the hero image */
+.about-rvce__img--hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, transparent 45%, rgba(11, 37, 69, .25) 75%, rgba(11, 37, 69, .55) 100%);
+  pointer-events: none;
+}
+.about-rvce__caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 24px 22px;
+  z-index: 1;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.about-rvce__caption-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: #f0d999;
+}
+.about-rvce__caption-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .35);
+}
+
+/* Slim accent rule under each card title to tie into the section's
+   gradient ribbon (matches existing v2 accent line style) */
+.about-rvce .institute-card { padding-top: 30px; }
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .about-rvce__mosaic {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+  }
+  .about-rvce__img--hero {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+    min-height: 280px;
+    aspect-ratio: 16 / 9;
+  }
+  .about-rvce__img--students { grid-column: 1 / 2; grid-row: 2 / 3; min-height: 160px; }
+  .about-rvce__img--library  { grid-column: 2 / 3; grid-row: 2 / 3; min-height: 160px; }
+  .about-rvce__caption-title { font-size: 17px; }
+}
+@media (max-width: 480px) {
+  .about-rvce__mosaic { gap: 10px; margin: 28px 0; }
+  .about-rvce__img--hero    { min-height: 200px; aspect-ratio: 4 / 3; }
+  .about-rvce__img--students,
+  .about-rvce__img--library { min-height: 130px; }
+  .about-rvce__caption { padding: 14px 16px; }
+  .about-rvce__caption-title { font-size: 15px; }
+  .about-rvce__lede { font-size: 15px; padding: 0 8px; }
+}
+
+/* =========================================================
+   "Why KCET / COMEDK Quota is Important?" — two-column
+   timeline lists (About + Benefits)
+   • per-column vertical line through the numbered circles
+   • snappy hover: circle scale + fill, text slide
+   • per-card staggered scroll fade-up
+   ========================================================= */
+.kcet-left,
+.kcet-right { position: relative; }
+
+/* Vertical line behind the circles — navy on the left column,
+   green on the right (Benefits) column */
+.kcet-left::before,
+.kcet-right::before {
+  content: "";
+  position: absolute;
+  left: 13px;     /* center of 28px circle */
+  top: 64px;      /* below the section heading */
+  bottom: 16px;
+  width: 2px;
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(to bottom,
+    rgba(11, 37, 69, 0)   0%,
+    rgba(11, 37, 69, .22) 8%,
+    rgba(11, 37, 69, .22) 92%,
+    rgba(11, 37, 69, 0)   100%);
+}
+.kcet-right::before {
+  background: linear-gradient(to bottom,
+    rgba(31, 107, 58, 0)   0%,
+    rgba(31, 107, 58, .25) 8%,
+    rgba(31, 107, 58, .25) 92%,
+    rgba(31, 107, 58, 0)   100%);
+}
+
+/* Card row — keep flex layout, add highlight bg + smoother transition */
+.kcet-card {
+  position: relative;
+  z-index: 1;
+  min-height: 82px;          /* equal-height rows so separators line up across both columns */
+  border-radius: 6px;
+  transition:
+    background-color .18s ease,
+    padding-left .2s cubic-bezier(.4, 0, .2, 1),
+    border-color .18s ease;
+}
+@media (max-width: 640px) {
+  .kcet-card { min-height: 72px; }
+}
+.kcet-card:hover {
+  background-color: rgba(11, 37, 69, .04);
+  padding-left: 12px;
+  border-bottom-color: rgba(11, 37, 69, .22);
+}
+.kcet-card.green:hover {
+  background-color: rgba(31, 107, 58, .045);
+  border-bottom-color: rgba(31, 107, 58, .22);
+}
+
+/* Numbered circle — opaque so it sits over the timeline line */
+.kcet-card .number {
+  position: relative;
+  z-index: 2;
+  background: var(--surface);
+  transition:
+    transform .2s cubic-bezier(.34, 1.4, .64, 1),
+    background-color .18s ease,
+    color .18s ease,
+    border-color .18s ease,
+    box-shadow .2s ease;
+  will-change: transform;
+}
+.kcet-card:hover .number {
+  transform: scale(1.12);
+  background: var(--navy);
+  color: #ffffff;
+  border-color: var(--navy);
+  box-shadow:
+    0 0 0 4px  rgba(11, 37, 69, .12),
+    0 4px 10px -3px rgba(11, 37, 69, .4);
+}
+.kcet-card.green:hover .number {
+  background: var(--good);
+  border-color: var(--good);
+  box-shadow:
+    0 0 0 4px  rgba(31, 107, 58, .14),
+    0 4px 10px -3px rgba(31, 107, 58, .42);
+}
+
+/* Text — small slide right + accent color shift on hover */
+.kcet-card p {
+  transition: transform .2s cubic-bezier(.4, 0, .2, 1), color .18s ease;
+}
+.kcet-card:hover p {
+  transform: translateX(6px);
+  color: var(--navy);
+}
+.kcet-card.green:hover p { color: var(--good); }
+
+/* Scroll-triggered fade-up — uses [data-rise-k] hook */
+.kcet-card[data-rise-k] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity .32s ease-out var(--rise-d, 0s),
+    transform .32s ease-out var(--rise-d, 0s),
+    background-color .18s ease,
+    padding-left .2s ease,
+    border-color .18s ease;
+  will-change: transform, opacity;
+}
+.kcet-card[data-rise-k].is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kcet-card[data-rise-k] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 992px) {
+  .kcet-left::before,
+  .kcet-right::before { top: 56px; }
+}
+@media (max-width: 480px) {
+  .kcet-card:hover { padding-left: 8px; }
+  .kcet-card:hover p { transform: translateX(4px); }
+}
 
 /* =========================================================
    FORM-CARD HEIGHT MATCH
